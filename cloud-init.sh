@@ -6,7 +6,6 @@ export DEBIAN_FRONTEND=noninteractive
 echo "# make..."
 sudo apt-get install -y \
         make
-        wget
 
 echo "# microk8s..."
 sudo snap install microk8s --classic --channel=1.19
