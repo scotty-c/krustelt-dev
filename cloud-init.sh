@@ -29,9 +29,10 @@ chmod +x bootstrap.sh
 
 echo "# krustlet config..."
 KUBECONFIG=${PWD}/krustlet-config 
-krustlet-wasi \
+terminal -e krustlet-wasi \
 --node-ip=127.0.0.1 \
 --node-name=krustlet \
---bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf || terminal -e kubectl certificate approve $HOSTNAME-tls
+--bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf  
+kubectl certificate approve $HOSTNAME-tls
 
 echo "# complete!"
