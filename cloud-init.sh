@@ -8,7 +8,7 @@ sudo apt-get install -y \
         make
 
 echo "# microk8s..."
-sudo snap install microk8s --classic --channel=1.21.1
+sudo snap install microk8s --classic --channel=1.21
 mkdir -p $HOME/.kube/
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
