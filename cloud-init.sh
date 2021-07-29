@@ -15,12 +15,12 @@ sudo chown -f -R $USER ~/.kube
 sudo microk8s config > $HOME/.kube/config
 echo "--enable-bootstrap-token-auth" > /var/snap/microk8s/current/args/kube-apiserver
 systemctl restart snap.microk8s.daemon-apiserver
-tee -a ~/.profile <<'EOF'
+tee -a  ~/.bash_aliases  <<'EOF'
 function kubectl {
         sudo microk8s kubectl "$@"
 }
 EOF
-source ~/.profile
+source  ~/.bash_aliases
 
 echo " # Krustlet..."
 VERSION="v1.0.0-alpha.1"
