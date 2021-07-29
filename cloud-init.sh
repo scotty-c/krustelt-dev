@@ -8,19 +8,19 @@ sudo apt-get install -y \
         make
 
 echo "# microk8s..."
-sudo snap install microk8s --classic --channel=1.19
+sudo snap install microk8s --classic --channel=1.21.1
 mkdir -p $HOME/.kube/
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 sudo microk8s config > $HOME/.kube/config
 echo "--enable-bootstrap-token-auth" > /var/snap/microk8s/current/args/kube-apiserver
 systemctl restart snap.microk8s.daemon-apiserver
-tee -a ~/.bashrc <<'EOF'
+tee -a ~/.profile <<'EOF'
 function kubectl {
         sudo microk8s kubectl "$@"
 }
 EOF
-source ~/.bashrc
+source ~/.profile
 
 echo " # Krustlet..."
 VERSION="v1.0.0-alpha.1"
