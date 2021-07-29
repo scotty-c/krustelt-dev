@@ -19,7 +19,7 @@ systemctl restart snap.microk8s.daemon-apiserver
 echo "# kubectl..."
 sudo snap install kubectl --classic --channel=1.21
 
-echo " # Krustlet..."
+echo "# Krustlet..."
 VERSION="v1.0.0-alpha.1"
 wget https://krustlet.blob.core.windows.net/releases/krustlet-$VERSION-linux-amd64.tar.gz
 tar -C /usr/local/bin -xzf krustlet-$VERSION-linux-amd64.tar.gz
@@ -27,13 +27,11 @@ curl -o bootstrap.sh 'https://raw.githubusercontent.com/krustlet/krustlet/main/s
 chmod +x bootstrap.sh
 ./bootstrap.sh
 
-echo " # krustlet config..."
-./KUBECONFIG=${PWD}/krustlet-config \
-  krustlet-wasi \
-  --node-ip=127.0.0.1 \
-  --node-name=krustlet \
-  --bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf
-
-microk8s.kubectl certificate approve $HOSTNAME-tls
+echo "# krustlet config..."
+KUBECONFIG=${PWD}/krustlet-config 
+krustlet-wasi \
+--node-ip=127.0.0.1 \
+--node-name=krustlet \
+--bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf || terminal -e kubectl certificate approve $HOSTNAME-tls
 
 echo "# complete!"
