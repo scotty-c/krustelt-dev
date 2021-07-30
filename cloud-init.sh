@@ -27,6 +27,12 @@ curl -o bootstrap.sh 'https://raw.githubusercontent.com/krustlet/krustlet/main/s
 chmod +x bootstrap.sh
 ./bootstrap.sh
 sudo chown -f -R $USER ~/.krustlet
+KUBECONFIG=${PWD}/krustlet-config
+krustlet-wasi \
+--node-ip=127.0.0.1 \
+--node-name=krustlet \
+--bootstrap-file=/home/ubuntu/.krustlet/config/bootstrap.conf &
+kubectl certificate approve $HOSTNAME-tls
 
 echo "# krustlet config..."
 tee -a /etc/systemd/system/krustlet.service <<'EOF'
@@ -47,8 +53,6 @@ ExecStart=krustlet-wasi \
 WantedBy=multi-user.target
 EOF
 
-sudo systemctl start krustlet
-
-kubectl certificate approve $HOSTNAME-tls
+#sudo systemctl start krustlet
 
 echo "# complete!"
