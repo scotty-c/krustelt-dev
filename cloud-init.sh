@@ -34,10 +34,8 @@ tee -a /etc/systemd/system/krustlet.service <<'EOF'
 Description=krustlet
 After=network.target
 StartLimitIntervalSec=0
+
 [Service]
-Type=simple
-Restart=always
-RestartSec=1
 User=root
 Environment="KUBECONFIG=${PWD}/krustlet-config"
 ExecStart=krustlet-wasi \
