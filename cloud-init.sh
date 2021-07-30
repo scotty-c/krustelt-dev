@@ -42,7 +42,7 @@ User=root
 ExecStart=krustlet-wasi \
 --node-ip=127.0.0.1 \
 --node-name=krustlet \
---bootstrap-file=home/ubuntu/.krustlet/config/bootstrap.conf  
+--bootstrap-file=/home/ubuntu/.krustlet/config/bootstrap.conf  
 
 [Install]
 WantedBy=multi-user.target
