@@ -47,6 +47,8 @@ ExecStart=krustlet-wasi \
 WantedBy=multi-user.target
 EOF
 
-#sudo systemctl start krustlet
+sudo systemctl start krustlet
+
+kubectl certificate approve $HOSTNAME-tls
 
 echo "# complete!"
