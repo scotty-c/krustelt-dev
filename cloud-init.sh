@@ -23,32 +23,32 @@ echo "# Krustlet..."
 VERSION="v1.0.0-alpha.1"
 wget https://krustlet.blob.core.windows.net/releases/krustlet-$VERSION-linux-amd64.tar.gz
 tar -C /usr/local/bin -xzf krustlet-$VERSION-linux-amd64.tar.gz
-curl -o bootstrap.sh 'https://raw.githubusercontent.com/krustlet/krustlet/main/scripts/bootstrap.sh'
-chmod +x bootstrap.sh
-./bootstrap.sh
-sudo chown -f -R $USER ~/.krustlet
+sudo mkdir -p /etc/krustlet/config
+sudo chown -R krustlet:krustlet /etc/krustlet
+cp $HOME/.kube/config /etc/krustlet/config/kubeconfig
+sudo chown krustlet:krustlet /etc/krustlet/config/kubeconfig
 
 echo "# krustlet config..."
-tee -a /etc/systemd/system/krustlet.service <<'EOF'
+sudo tee -a /etc/systemd/system/krustlet.service <<'EOF'
 [Unit]
-Description=krustlet
-After=network.target
-StartLimitIntervalSec=0
-
+Description=Krustlet
 [Service]
-User=root
-Environment="KUBECONFIG=${PWD}/krustlet-config"
-ExecStart=krustlet-wasi \
---node-ip=127.0.0.1 \
---node-name=krustlet \
---bootstrap-file=/home/ubuntu/.krustlet/config/bootstrap.conf  
-
+Restart=on-failure
+RestartSec=5s
+Environment=KUBECONFIG=/etc/krustlet/config/kubeconfig
+Environment=KRUSTLET_DATA_DIR=/etc/krustlet
+Environment=RUST_LOG=wasi_provider=info,main=info
+Environment=KRUSTLET_BOOTSTRAP_FILE=/etc/krustlet/config/bootstrap.conf
+ExecStart=/usr/local/bin/krustlet-wasi
+User=krustlet
+Group=krustlet
 [Install]
 WantedBy=multi-user.target
 EOF
-
+sudo chmod +x /etc/systemd/system/krustlet.service
+sudo systemctl enable krustlet
 sudo systemctl start krustlet
-
+sleep 5 # wait for krustlet to start
 kubectl certificate approve $HOSTNAME-tls
 
 echo "# complete!"
