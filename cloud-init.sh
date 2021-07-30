@@ -28,7 +28,6 @@ chmod +x bootstrap.sh
 ./bootstrap.sh
 
 echo "# krustlet config..."
-KUBECONFIG=${PWD}/krustlet-config 
 tee -a /etc/systemd/system/krustlet.service <<'EOF'
 [Unit]
 Description=krustlet
@@ -39,6 +38,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
+Environment="KUBECONFIG=${PWD}/krustlet-config"
 ExecStart=krustlet-wasi \
 --node-ip=127.0.0.1 \
 --node-name=krustlet \
