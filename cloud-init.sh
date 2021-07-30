@@ -29,14 +29,26 @@ chmod +x bootstrap.sh
 
 echo "# krustlet config..."
 KUBECONFIG=${PWD}/krustlet-config 
-start-wasi () {
-krustlet-wasi \
+tee -a /etc/systemd/system/krustlet.service <<'EOF'
+[Unit]
+Description=krustlet
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=krustlet-wasi \
 --node-ip=127.0.0.1 \
 --node-name=krustlet \
---bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf  
-}
-start-wasi &
-sleep 10
+--bootstrap-file=home/ubuntu/.krustlet/config/bootstrap.conf  
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl start krustlet
+
 kubectl certificate approve $HOSTNAME-tls
 
 echo "# complete!"
