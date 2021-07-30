@@ -36,6 +36,7 @@ krustlet-wasi \
 --bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf  
 }
 start-wasi &
+sleep 10
 kubectl certificate approve $HOSTNAME-tls
 
 echo "# complete!"
