@@ -19,7 +19,7 @@ sudo systemctl restart snap.microk8s.daemon-apiserver
 echo "# kubectl..."
 sudo snap install kubectl --classic --channel=1.21
 
-echo "# Krustlet..."
+echo "# krustlet..."
 VERSION="v1.0.0-alpha.1"
 wget https://krustlet.blob.core.windows.net/releases/krustlet-$VERSION-linux-amd64.tar.gz
 tar -C /usr/local/bin -xzf krustlet-$VERSION-linux-amd64.tar.gz
@@ -28,7 +28,7 @@ sudo chown -R ubuntu:ubuntu /etc/krustlet
 cp $HOME/.kube/config /etc/krustlet/config/kubeconfig
 sudo chown ubuntu:ubuntu /etc/krustlet/config/kubeconfig
 
-echo "# krustlet config..."
+echo "# krustlet daemon file..."
 sudo tee -a /etc/systemd/system/krustlet.service <<'EOF'
 [Unit]
 Description=Krustlet
@@ -48,9 +48,15 @@ Group=ubuntu
 WantedBy=multi-user.target
 EOF
 sudo chmod +x /etc/systemd/system/krustlet.service
+
+echo "# starting krustlet ..."
 sudo systemctl enable krustlet
 sudo systemctl start krustlet
+
+echo "# waiting for krustlet to start ..."            
 sleep 5 # wait for krustlet to start
+
+echo "# signing cert request ..."
 kubectl certificate approve $HOSTNAME-tls
 
 echo "# complete!"
