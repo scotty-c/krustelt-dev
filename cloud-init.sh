@@ -14,7 +14,7 @@ sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 sudo microk8s config > $HOME/.kube/config
 echo "--enable-bootstrap-token-auth" > /var/snap/microk8s/current/args/kube-apiserver
-systemctl restart snap.microk8s.daemon-apiserver
+sudo systemctl restart snap.microk8s.daemon-apiserver
 
 echo "# kubectl..."
 sudo snap install kubectl --classic --channel=1.21
@@ -26,6 +26,7 @@ tar -C /usr/local/bin -xzf krustlet-$VERSION-linux-amd64.tar.gz
 curl -o bootstrap.sh 'https://raw.githubusercontent.com/krustlet/krustlet/main/scripts/bootstrap.sh'
 chmod +x bootstrap.sh
 ./bootstrap.sh
+sudo chown -f -R $USER ~/.krustlet
 
 echo "# krustlet config..."
 tee -a /etc/systemd/system/krustlet.service <<'EOF'
@@ -47,7 +48,8 @@ ExecStart=krustlet-wasi \
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl start krustlet
+
+sudo systemctl start krustlet
 
 kubectl certificate approve $HOSTNAME-tls
 
