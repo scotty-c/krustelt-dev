@@ -24,9 +24,9 @@ VERSION="v1.0.0-alpha.1"
 wget https://krustlet.blob.core.windows.net/releases/krustlet-$VERSION-linux-amd64.tar.gz
 tar -C /usr/local/bin -xzf krustlet-$VERSION-linux-amd64.tar.gz
 sudo mkdir -p /etc/krustlet/config
-sudo chown -R krustlet:krustlet /etc/krustlet
+sudo chown -R ubuntu:ubuntu /etc/krustlet
 cp $HOME/.kube/config /etc/krustlet/config/kubeconfig
-sudo chown krustlet:krustlet /etc/krustlet/config/kubeconfig
+sudo chown ubuntu:ubuntu /etc/krustlet/config/kubeconfig
 
 echo "# krustlet config..."
 sudo tee -a /etc/systemd/system/krustlet.service <<'EOF'
@@ -40,8 +40,8 @@ Environment=KRUSTLET_DATA_DIR=/etc/krustlet
 Environment=RUST_LOG=wasi_provider=info,main=info
 Environment=KRUSTLET_BOOTSTRAP_FILE=/etc/krustlet/config/bootstrap.conf
 ExecStart=/usr/local/bin/krustlet-wasi
-User=krustlet
-Group=krustlet
+User=ubuntu
+Group=ubuntu
 [Install]
 WantedBy=multi-user.target
 EOF
