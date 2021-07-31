@@ -38,10 +38,10 @@ RestartSec=5s
 Environment=KUBECONFIG=/etc/krustlet/config/kubeconfig
 Environment=KRUSTLET_DATA_DIR=/etc/krustlet
 Environment=RUST_LOG=wasi_provider=info,main=info
-Environment=KRUSTLET_BOOTSTRAP_FILE=/etc/krustlet/config/bootstrap.conf
 ExecStart=/usr/local/bin/krustlet-wasi \
   --node-ip=127.0.0.1 \
-  --node-name=krustlet
+  --node-name=krustlet \
+  --bootstrap-file=$/etc/krustlet/config/bootstrap.conf
 User=ubuntu
 Group=ubuntu
 [Install]
