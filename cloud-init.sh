@@ -13,7 +13,7 @@ mkdir -p $HOME/.kube/
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 sudo microk8s config > $HOME/.kube/config
-echo "--enable-bootstrap-token-auth" > /var/snap/microk8s/current/args/kube-apiserver
+sudo echo "--enable-bootstrap-token-auth" > /var/snap/microk8s/current/args/kube-apiserver
 sudo systemctl restart snap.microk8s.daemon-apiserver
 
 echo "# kubectl..."
