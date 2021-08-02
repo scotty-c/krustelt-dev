@@ -23,9 +23,12 @@ echo "# krustlet..."
 VERSION="v1.0.0-alpha.1"
 wget https://krustlet.blob.core.windows.net/releases/krustlet-$VERSION-linux-amd64.tar.gz
 tar -C /usr/local/bin -xzf krustlet-$VERSION-linux-amd64.tar.gz
+curl -o bootstrap.sh https://raw.githubusercontent.com/krustlet/krustlet/main/scripts/bootstrap.sh
+chmod +x bootstrap.sh
+./bootstrap.sh
 sudo mkdir -p /etc/krustlet/config
 sudo chown -R ubuntu:ubuntu /etc/krustlet
-cp $HOME/.kube/config /etc/krustlet/config/kubeconfig
+cp $HOME/.krustlet/config/bootstrap.conf /etc/krustlet/config/kubeconfig
 sudo chown ubuntu:ubuntu /etc/krustlet/config/kubeconfig
 
 echo "# krustlet daemon file..."
