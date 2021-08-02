@@ -36,6 +36,8 @@ Description=Krustlet
 Restart=on-failure
 RestartSec=5s
 Environment=KUBECONFIG=/etc/krustlet/config/kubeconfig
+Environment=KRUSTLET_CERT_FILE=/etc/krustlet/config/krustlet.crt
+Environment=KRUSTLET_PRIVATE_KEY_FILE=/etc/krustlet/config/krustlet.key
 Environment=KRUSTLET_DATA_DIR=/etc/krustlet
 Environment=RUST_LOG=wasi_provider=info,main=info
 ExecStart=/usr/local/bin/krustlet-wasi \
@@ -57,6 +59,6 @@ echo "# waiting for krustlet to start ..."
 sleep 5 # wait for krustlet to start
 
 echo "# signing cert request ..."
-kubectl certificate approve $HOSTNAME-tls
+kubectl --kubeconfig=/home/ubuntu/.kube/config certificate approve $HOSTNAME-tls
 
 echo "# complete!"
