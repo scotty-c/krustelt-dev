@@ -28,8 +28,8 @@ chmod +x bootstrap.sh
 ./bootstrap.sh
 sudo mkdir -p /etc/krustlet/config
 sudo chown -R ubuntu:ubuntu /etc/krustlet
-cp $HOME/.krustlet/config/bootstrap.conf /etc/krustlet/config/kubeconfig
-sudo chown ubuntu:ubuntu /etc/krustlet/config/kubeconfig
+cp $HOME/.krustlet/config/bootstrap.conf/etc/krustlet/config/bootstrap.conf
+sudo chown ubuntu:ubuntu /etc/krustlet/config/bootstrap.conf
 
 echo "# krustlet daemon file..."
 sudo tee -a /etc/systemd/system/krustlet.service <<'EOF'
@@ -46,7 +46,7 @@ Environment=RUST_LOG=wasi_provider=info,main=info
 ExecStart=/usr/local/bin/krustlet-wasi \
   --node-ip=127.0.0.1 \
   --node-name=krustlet \
-  --bootstrap-file=$/etc/krustlet/config/kubeconfig
+  --bootstrap-file=$/etc/krustlet/config/bootstrap.conf
 User=ubuntu
 Group=ubuntu
 [Install]
