@@ -43,7 +43,7 @@ Environment=RUST_LOG=wasi_provider=info,main=info
 ExecStart=/usr/local/bin/krustlet-wasi \
   --node-ip=127.0.0.1 \
   --node-name=krustlet \
-  --bootstrap-file=$/etc/krustlet/config/bootstrap.conf
+  --bootstrap-file=$/etc/krustlet/config/kubeconfig
 User=ubuntu
 Group=ubuntu
 [Install]
