@@ -28,8 +28,11 @@ chmod +x bootstrap.sh
 ./bootstrap.sh
 sudo mkdir -p /etc/krustlet/config
 sudo chown -R ubuntu:ubuntu /etc/krustlet
-cp $HOME/.krustlet/config/bootstrap.conf /etc/krustlet/config/bootstrap.conf
+sudo cp $HOME/.krustlet/config/bootstrap.conf /etc/krustlet/config/bootstrap.conf
+sudo cp $HOME/.kube/config /etc/krustlet/config/kubeconfig 
 sudo chown ubuntu:ubuntu /etc/krustlet/config/bootstrap.conf
+sudo chown ubuntu:ubuntu /etc/krustlet/config/kubeconfig
+
 
 echo "# krustlet daemon file..."
 sudo tee -a /etc/systemd/system/krustlet.service <<'EOF'
